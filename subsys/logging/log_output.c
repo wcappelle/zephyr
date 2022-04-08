@@ -253,7 +253,8 @@ static int timestamp_print(const struct log_output *output,
 
 		if (IS_ENABLED(CONFIG_LOG_OUTPUT_FORMAT_CUSTOM_TIMESTAMP)) {
 			length = log_custom_timestamp_print(output, timestamp, print_formatted);
-		} else if (IS_ENABLED(CONFIG_LOG_BACKEND_NET) &&
+		} else if ((IS_ENABLED(CONFIG_LOG_BACKEND_NET)
+				|| IS_ENABLED(CONFIG_LOG_BACKEND_NETSOCKET)) &&
 			   flags & LOG_OUTPUT_FLAG_FORMAT_SYSLOG) {
 #if defined(CONFIG_NEWLIB_LIBC)
 			char time_str[sizeof("1970-01-01T00:00:00")];
@@ -352,7 +353,7 @@ static int ids_print(const struct log_output *output,
 
 static void newline_print(const struct log_output *ctx, uint32_t flags)
 {
-	if (IS_ENABLED(CONFIG_LOG_BACKEND_NET) &&
+	if ((IS_ENABLED(CONFIG_LOG_BACKEND_NET) || IS_ENABLED(CONFIG_LOG_BACKEND_NETSOCKET)) &&
 	    flags & LOG_OUTPUT_FLAG_FORMAT_SYSLOG) {
 		return;
 	}
@@ -440,7 +441,7 @@ static uint32_t prefix_print(const struct log_output *output,
 	bool level_on = flags & LOG_OUTPUT_FLAG_LEVEL;
 	const char *tag = IS_ENABLED(CONFIG_LOG) ? z_log_get_tag() : NULL;
 
-	if (IS_ENABLED(CONFIG_LOG_BACKEND_NET) &&
+	if ((IS_ENABLED(CONFIG_LOG_BACKEND_NET) || IS_ENABLED(CONFIG_LOG_BACKEND_NETSOCKET)) &&
 	    flags & LOG_OUTPUT_FLAG_FORMAT_SYSLOG) {
 		/* TODO: As there is no way to figure out the
 		 * facility at this point, use a pre-defined value.
@@ -464,7 +465,7 @@ static uint32_t prefix_print(const struct log_output *output,
 		length += timestamp_print(output, flags, timestamp);
 	}
 
-	if (IS_ENABLED(CONFIG_LOG_BACKEND_NET) &&
+	if ((IS_ENABLED(CONFIG_LOG_BACKEND_NET) || IS_ENABLED(CONFIG_LOG_BACKEND_NETSOCKET)) &&
 	    flags & LOG_OUTPUT_FLAG_FORMAT_SYSLOG) {
 		length += print_formatted(
 			output, "%s - - - - ",
