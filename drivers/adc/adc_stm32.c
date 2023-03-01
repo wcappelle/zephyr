@@ -560,7 +560,9 @@ static void adc_stm32_setup_channels(const struct device *dev, uint8_t channel_i
 	if (config->has_temp_channel &&
 		__LL_ADC_CHANNEL_TO_DECIMAL_NB(LL_ADC_CHANNEL_TEMPSENSOR) == channel_id) {
 		adc_stm32_disable(adc);
+#ifdef LL_ADC_PATH_INTERNAL_TEMPSENSOR
 		adc_stm32_set_common_path(dev, LL_ADC_PATH_INTERNAL_TEMPSENSOR);
+#endif
 #ifdef LL_ADC_DELAY_TEMPSENSOR_STAB_US
 		k_usleep(LL_ADC_DELAY_TEMPSENSOR_STAB_US);
 #endif
@@ -624,7 +626,9 @@ static void adc_stm32_teardown_channels(const struct device *dev, uint8_t channe
 	if (config->has_temp_channel &&
 		(__LL_ADC_CHANNEL_TO_DECIMAL_NB(LL_ADC_CHANNEL_TEMPSENSOR) == channel_id)) {
 		adc_stm32_disable(adc);
+#ifdef LL_ADC_PATH_INTERNAL_TEMPSENSOR
 		adc_stm32_unset_common_path(dev, LL_ADC_PATH_INTERNAL_TEMPSENSOR);
+#endif
 	}
 #endif /* CONFIG_SOC_SERIES_STM32G4X */
 
