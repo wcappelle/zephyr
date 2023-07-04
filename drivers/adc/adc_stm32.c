@@ -637,7 +637,9 @@ static void adc_stm32_setup_channel(const struct device *dev, uint8_t channel_id
 
 	if (config->temp_channel == channel_id) {
 		adc_stm32_disable(adc);
+#ifdef LL_ADC_PATH_INTERNAL_TEMPSENSOR
 		adc_stm32_set_common_path(dev, LL_ADC_PATH_INTERNAL_TEMPSENSOR);
+#endif
 		k_usleep(LL_ADC_DELAY_TEMPSENSOR_STAB_US);
 	}
 
@@ -681,7 +683,9 @@ static void adc_stm32_teardown_channels(const struct device *dev)
 		channel_id = find_lsb_set(channels) - 1;
 		if (config->temp_channel == channel_id) {
 			adc_stm32_disable(adc);
+#ifdef LL_ADC_PATH_INTERNAL_TEMPSENSOR
 			adc_stm32_unset_common_path(dev, LL_ADC_PATH_INTERNAL_TEMPSENSOR);
+#endif
 		}
 
 		if (config->vref_channel == channel_id) {
