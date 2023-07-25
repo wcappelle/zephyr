@@ -114,6 +114,14 @@ config MODEM_IFACE_UART_ASYNC_RX_TIMEOUT_US
 	  value too much can result in spurious interrupts. Leaving it too
 	  high can reduce data throughput.
 
+config MODEM_IFACE_UART_ASYNC_HANDLE_RX_DISABLED
+	bool "Handle RX_DISABLED of the UART driver to re-enable the modem"
+	default y
+	help
+	  Handle the RX_DISABLED in the async callback to re-enable the modem.
+	  This can handle line errors on some drivers which would otherwise
+	  stop modem reception.
+
 endif # MODEM_IFACE_UART_ASYNC
 
 endif # MODEM_IFACE_UART

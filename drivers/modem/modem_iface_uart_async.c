@@ -61,6 +61,7 @@ static void iface_uart_async_callback(const struct device *dev,
 		/* Notify upper layer that new data has arrived */
 		k_sem_give(&data->rx_sem);
 		break;
+#if CONFIG_MODEM_IFACE_UART_ASYNC_HANDLE_RX_DISABLED
 	case UART_RX_STOPPED:
 		break;
 	case UART_RX_DISABLED:
@@ -76,6 +77,7 @@ static void iface_uart_async_callback(const struct device *dev,
 			LOG_ERR("Failed to re-enable UART");
 		}
 		break;
+#endif
 	default:
 		break;
 	}
