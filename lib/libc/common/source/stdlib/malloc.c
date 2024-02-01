@@ -112,7 +112,7 @@ extern char _heap_sentry[];
 
 # endif /* else ALLOCATE_HEAP_AT_STARTUP */
 
-POOL_SECTION static struct sys_heap z_malloc_heap;
+POOL_SECTION struct sys_heap z_malloc_heap;
 MALLOC_SECTION SYS_MUTEX_DEFINE(z_malloc_heap_mutex);
 
 void *malloc(size_t size)
