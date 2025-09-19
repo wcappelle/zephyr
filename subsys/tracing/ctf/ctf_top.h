@@ -102,7 +102,15 @@ typedef enum {
 	CTF_EVENT_TIMER_STOP = 0x30,
 	CTF_EVENT_TIMER_STATUS_SYNC_ENTER = 0x31,
 	CTF_EVENT_TIMER_STATUS_SYNC_BLOCKING = 0x32,
-	CTF_EVENT_TIMER_STATUS_SYNC_EXIT = 0x33
+	CTF_EVENT_TIMER_STATUS_SYNC_EXIT = 0x33,
+	CTF_EVENT_NAMED_EVENT = 0x62,
+	CTF_EVENT_NAMED_DISPATCHER_EVENT = 0x63,
+	CTF_EVENT_FS_OPEN = 0xA0,
+	CTF_EVENT_FS_READ = 0xA1,
+	CTF_EVENT_FS_WRITE = 0xA2,
+	CTF_EVENT_FS_CLOSE = 0xA3,
+	CTF_EVENT_FS_STAT = 0xA4,
+	CTF_EVENT_FS_UNLINK = 0xA5
 
 } ctf_event_t;
 
@@ -328,5 +336,46 @@ static inline void ctf_top_timer_status_sync_exit(uint32_t timer, uint32_t resul
 	CTF_EVENT(CTF_LITERAL(uint8_t, CTF_EVENT_TIMER_STATUS_SYNC_EXIT), timer, result);
 }
 
+static inline void ctf_named_event(ctf_bounded_string_t name, uint32_t arg0,
+				   uint32_t arg1)
+{
+	CTF_EVENT(CTF_LITERAL(uint8_t, CTF_EVENT_NAMED_EVENT), name, arg0, arg1);
+}
+
+static inline void ctf_named_dispatcher_event(ctf_bounded_string_t src, ctf_bounded_string_t dst,
+					ctf_bounded_string_t msgtype)
+{
+	CTF_EVENT(CTF_LITERAL(uint8_t, CTF_EVENT_NAMED_DISPATCHER_EVENT), src, dst, msgtype);
+}
+
+static inline void ctf_top_fs_open(uint32_t fp, ctf_bounded_string_t filename)
+{
+	CTF_EVENT(CTF_LITERAL(uint8_t, CTF_EVENT_FS_OPEN), fp, filename);
+}
+
+static inline void ctf_top_fs_read(uint32_t fp, uint32_t size)
+{
+	CTF_EVENT(CTF_LITERAL(uint8_t, CTF_EVENT_FS_READ), fp, size);
+}
+
+static inline void ctf_top_fs_write(uint32_t fp, uint32_t size)
+{
+	CTF_EVENT(CTF_LITERAL(uint8_t, CTF_EVENT_FS_WRITE), fp, size);
+}
+
+static inline void ctf_top_fs_close(uint32_t fp)
+{
+	CTF_EVENT(CTF_LITERAL(uint8_t, CTF_EVENT_FS_CLOSE), fp);
+}
+
+static inline void ctf_top_fs_stat(ctf_bounded_string_t path)
+{
+	CTF_EVENT(CTF_LITERAL(uint8_t, CTF_EVENT_FS_STAT), path);
+}
+
+static inline void ctf_top_fs_unlink(ctf_bounded_string_t path)
+{
+	CTF_EVENT(CTF_LITERAL(uint8_t, CTF_EVENT_FS_UNLINK), path);
+}
 
 #endif /* SUBSYS_DEBUG_TRACING_CTF_TOP_H */

@@ -2004,6 +2004,16 @@
  */
 #define sys_port_trace_pm_device_runtime_disable_exit(dev, ret)
 
+/*
+ * @brief Called by user to generate named events
+ *
+ * @param name name of event. Tracing subsystems may place a limit on
+ * the length of this string
+ * @param arg0 arbitrary user-provided data for this event
+ * @param arg1 arbitrary user-provided data for this event
+ */
+#define sys_trace_named_event(name, arg0, arg1)
+
 /** @} */ /* end of subsys_tracing_apis_pm_device_runtime */
 
 #if defined(CONFIG_PERCEPIO_TRACERECORDER)

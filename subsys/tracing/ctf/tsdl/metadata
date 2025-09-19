@@ -310,3 +310,74 @@ event {
 		uint32_t result;
 	};
 };
+
+event {
+	name = named_event;
+	id = 0x62;
+	fields := struct {
+		ctf_bounded_string_t name[20];
+		uint32_t arg0;
+		uint32_t arg1;
+	};
+};
+
+event {
+	name = dispatcher_event;
+	id = 0x63;
+	fields := struct {
+		ctf_bounded_string_t src[20];
+		ctf_bounded_string_t dst[20];
+		ctf_bounded_string_t msgtype[20];
+	};
+};
+
+event {
+	name = fs_open;
+	id = 0xA0;
+	fields := struct {
+		uint32_t fp;
+		ctf_bounded_string_t filename[20];
+	};
+};
+
+event {
+	name = fs_read;
+	id = 0xA1;
+	fields := struct {
+		uint32_t fp;
+		uint32_t size;
+	};
+};
+
+event {
+	name = fs_write;
+	id = 0xA2;
+	fields := struct {
+		uint32_t fp;
+		uint32_t size;
+	};
+};
+
+event {
+	name = fs_close;
+	id = 0xA3;
+	fields := struct {
+		uint32_t fp;
+	};
+};
+
+event {
+	name = fs_stat;
+	id = 0xA4;
+	fields := struct {
+		ctf_bounded_string_t path[20];
+	};
+};
+
+event {
+	name = fs_stat;
+	id = 0xA5;
+	fields := struct {
+		ctf_bounded_string_t path[20];
+	};
+};

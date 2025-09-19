@@ -319,3 +319,83 @@ void sys_trace_k_timer_status_sync_exit(struct k_timer *timer, uint32_t result)
 		result
 		);
 }
+
+void sys_trace_named_event(const char *name, uint32_t arg0, uint32_t arg1)
+{
+	ctf_bounded_string_t ctf_name = {""};
+
+	strncpy(ctf_name.buf, name, CTF_MAX_STRING_LEN);
+	/* Make sure buffer is NULL terminated */
+	ctf_name.buf[CTF_MAX_STRING_LEN - 1] = '\0';
+
+	ctf_named_event(ctf_name, arg0, arg1);
+}
+
+void sys_trace_named_dispatcher_event(const char *src, const char *dst, const char *msgtype)
+{
+	ctf_bounded_string_t ctf_src = {""};
+	ctf_bounded_string_t ctf_dst = {""};
+	ctf_bounded_string_t ctf_msgtype = {""};
+
+	strncpy(ctf_src.buf, src, CTF_MAX_STRING_LEN);
+	/* Make sure buffer is NULL terminated */
+	ctf_src.buf[CTF_MAX_STRING_LEN - 1] = '\0';
+
+	strncpy(ctf_dst.buf, dst, CTF_MAX_STRING_LEN);
+	/* Make sure buffer is NULL terminated */
+	ctf_dst.buf[CTF_MAX_STRING_LEN - 1] = '\0';
+
+	strncpy(ctf_msgtype.buf, msgtype, CTF_MAX_STRING_LEN);
+	/* Make sure buffer is NULL terminated */
+	ctf_msgtype.buf[CTF_MAX_STRING_LEN - 1] = '\0';
+
+	ctf_named_dispatcher_event(ctf_src, ctf_dst, ctf_msgtype);
+}
+
+void sys_trace_fs_open(struct fs_file_t *fp, const char *filename)
+{
+	ctf_bounded_string_t ctf_file = {""};
+
+	strncpy(ctf_file.buf, filename, CTF_MAX_STRING_LEN);
+	/* Make sure buffer is NULL terminated */
+	ctf_file.buf[CTF_MAX_STRING_LEN - 1] = '\0';
+
+	ctf_top_fs_open((uint32_t)(uintptr_t)fp, ctf_file);
+}
+
+void sys_trace_fs_read(struct fs_file_t *fp, size_t size)
+{
+	ctf_top_fs_read((uint32_t)(uintptr_t)fp, size);
+}
+
+void sys_trace_fs_write(struct fs_file_t *fp, size_t size)
+{
+	ctf_top_fs_write((uint32_t)(uintptr_t)fp, size);
+}
+
+void sys_trace_fs_close(struct fs_file_t *fp)
+{
+	ctf_top_fs_close((uint32_t)(uintptr_t)fp);
+}
+
+void sys_trace_fs_stat(const char *path)
+{
+	ctf_bounded_string_t ctf_path = {""};
+
+	strncpy(ctf_path.buf, path, CTF_MAX_STRING_LEN);
+	/* Make sure buffer is NULL terminated */
+	ctf_path.buf[CTF_MAX_STRING_LEN - 1] = '\0';
+
+	ctf_top_fs_stat(ctf_path);
+}
+
+void sys_trace_fs_unlink(const char *path)
+{
+	ctf_bounded_string_t ctf_path = {""};
+
+	strncpy(ctf_path.buf, path, CTF_MAX_STRING_LEN);
+	/* Make sure buffer is NULL terminated */
+	ctf_path.buf[CTF_MAX_STRING_LEN - 1] = '\0';
+
+	ctf_top_fs_unlink(ctf_path);
+}

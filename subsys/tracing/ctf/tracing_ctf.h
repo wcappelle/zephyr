@@ -436,6 +436,18 @@ void sys_trace_k_timer_status_sync_exit(struct k_timer *timer, uint32_t result);
 
 void sys_trace_k_event_init(struct k_event *event);
 
+void sys_trace_named_event(const char *name, uint32_t arg0, uint32_t arg1);
+
+void sys_trace_named_dispatcher_event(const char *src, const char *dst, const char *msgtype);
+
+struct fs_file_t;
+void sys_trace_fs_open(struct fs_file_t *fp, const char *filename);
+void sys_trace_fs_read(struct fs_file_t *fp, size_t size);
+void sys_trace_fs_write(struct fs_file_t *fp, size_t size);
+void sys_trace_fs_close(struct fs_file_t *fp);
+void sys_trace_fs_stat(const char *path);
+void sys_trace_fs_unlink(const char *path);
+
 #ifdef __cplusplus
 }
 #endif
